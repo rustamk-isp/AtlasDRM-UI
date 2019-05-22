@@ -25,7 +25,7 @@ $ yarn install
 $ yarn start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser. You will be asked to authenticate against the staging environment.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Note that this project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/) & [imperative mood](https://chris.beams.io/posts/git-commit/#imperative), and automatically enforces code style and commits using:
 
