@@ -1,44 +1,55 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# DRM UI
 
-## Available Scripts
+A web UI to configure and run live video channels. Commander uses the following technologies:
 
-In the project directory, you can run:
+- [Node.js](https://nodejs.org/en/) & [Yarn](https://yarnpkg.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/)
+- [Create React App](https://facebook.github.io/create-react-app/docs/getting-started)
+- [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
+- [JSX](https://reactjs.org/docs/introducing-jsx.html)
+- [Pebble](http://pebble-dev.s3-website-us-west-2.amazonaws.com/)
 
-### `npm start`
 
-Runs the app in the development mode.<br>
+## Development
+
+To get started, check out this repo, make sure you have Node.js and Yarn installed and then:
+
+```sh
+# First check out the project, then get the dependencies
+$ git clone git@github.com:rustamk-isp/AtlasDRM-UI.git
+$ cd AtlasDRM-UI
+$ yarn install
+
+# Run the app!
+$ yarn start
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser. You will be asked to authenticate against the staging environment.
+
+Note that this project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/) & [imperative mood](https://chris.beams.io/posts/git-commit/#imperative), and automatically enforces code style and commits using:
+
+- [husky](https://github.com/typicode/husky) & [lint-staged](https://github.com/okonet/lint-staged) for Git hooks.
+- [Prettier](https://prettier.io/) for automatic code & style formatting.
+- [ESLint](https://eslint.org/) with [typescript-eslint](https://typescript-eslint.io) for linting.
+- [stylelint](https://stylelint.io/) for CSS/SASS linting.
+
+Everything but the tests will run automatically when you try to commit. 
+
+## Deployment
+
+This project includes a `Dockerfile` which will build a production version of DRM-UI as minified static HTML/JS/CSS assets using `yarn build` and then put them (and our custom `nginx.conf`) into a minimal [nginx](https://www.nginx.com/) container based on [Alpine](https://alpinelinux.org/).
+
+To build and run locally:
+
+```sh
+# Build the image
+$ docker build -t drm .
+
+# Run it!
+$ docker run -p 3000:80 dr,
+```
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+For more information on how to deploy React apps, look at the [deployment documentation](https://facebook.github.io/create-react-app/docs/deployment) from Create React App.
