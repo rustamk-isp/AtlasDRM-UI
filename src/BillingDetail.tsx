@@ -14,9 +14,7 @@ import {
 } from '@istreamplanet/pebble'
 
 export default function BillingDetail(): JSX.Element {
-  const [customers, setCustomers] = useState<
-    { value: string; label: string }[]
-  >([])
+  const [customers, setCustomers] = useState<{}[]>([])
   const [workStreams, setWorkStreams] = useState<string[]>([])
   const [csvData, setCSVData] = useState<string[]>([])
   const [workStreamSortDirection, setWorkStreamSortDirection] = useState<
@@ -40,27 +38,27 @@ export default function BillingDetail(): JSX.Element {
   ]
 
   function filterByWorkStream(arr: any, query: string): [] {
-    return arr.filter(function(el: any): [] {
+    return arr.filter(function(el: any): boolean{
       return el.WorkStream.toLowerCase().indexOf(query.toLowerCase()) !== -1
     })
   }
 
   function filterByCompany(arr: any, query: string): [] {
-    return arr.filter(function(el: any): [] {
+    return arr.filter(function(el: any): boolean{
       return el.Company.toLowerCase().indexOf(query.toLowerCase()) !== -1
     })
   }
 
-  function createSelectOptions(item: string): void {
+  function createSelectOptions(item: string): {} {
     return { value: item, label: item }
   }
 
-  var handleCSVData = (data: []): void => {
+  function handleCSVData (data: []): void {
     setCustomers(
       [
         ...new Set<string>(
           data.map(({ Company }) =>
-            Company != ''
+            Company !== ''
               ? Company
               : 'Unmaped Customers in CSV (If Customer is missing update CSV tool)'
           )
@@ -71,27 +69,27 @@ export default function BillingDetail(): JSX.Element {
     setShowModal(!showModal)
   }
 
-  var handleError = (e: any): void => {}
+  function handleError (e: any): void {}
 
   function selectedCompany(data: { value: string; label: string }): void {
     setWorkStreams([
       ...new Set<string>(
         filterByCompany(csvData, data.value).map(({ WorkStream }) =>
-          WorkStream != '' ? WorkStream : 'Uknown'
+          WorkStream !== '' ? WorkStream : 'Uknown'
         )
       ),
     ])
     console.log([
       ...new Set<string>(
         filterByCompany(csvData, data.value).map(({ WorkStream }) =>
-          WorkStream != '' ? WorkStream : 'Uknown'
+          WorkStream !== '' ? WorkStream : 'Uknown'
         )
       ),
     ])
   }
 
-  function compare(): void {
-    return function(a: any, b: any): number {
+  function compare(): any {
+    return function(a: any, b: any): any {
       const varA = typeof a === 'string' ? a.toUpperCase() : a
       const varB = typeof b === 'string' ? b.toUpperCase() : b
 
@@ -126,14 +124,14 @@ export default function BillingDetail(): JSX.Element {
     }
   }
 
-  function getCountedDataForWorkStream(data: any): void {
+  function getCountedDataForWorkStream(data: any): {}[] {
     let wv = 0
     let pr = 0
     let pt = 0
     let fp = 0
     let total = 0
 
-    const ws = filterByWorkStream(csvData, data)
+    const ws:any = filterByWorkStream(csvData, data)
 
     for (var i = 0; i < ws.length; i++) {
       wv += parseInt(ws[i].WidevineCount)
@@ -176,7 +174,7 @@ export default function BillingDetail(): JSX.Element {
       onRequestClose={() => setShowModal(!showModal)}
       showing={showModal}
     >
-      CSV is loading and parsing please wait.
+      CSV is loaded and parsed
     </Modal>
   )
 
@@ -203,7 +201,7 @@ export default function BillingDetail(): JSX.Element {
         {' '}
         <Heading element='2'>Step 2 : Select Customer </Heading>
         <FieldSelect
-          id='company_naime'
+          id='company_name'
           options={customers}
           isSearchable
           label='Company Name'
@@ -224,14 +222,14 @@ export default function BillingDetail(): JSX.Element {
           <TableHeaderCell
             sortDirection={workStreamSortDirection}
             onSort={() => handleSort('workStream', workStreamSortDirection)}
-          >
-            Work Stream
+          ><div style={{ textAlign: 'right' }}>
+            Work Stream</div>
           </TableHeaderCell>
-          <TableHeaderCell>Primetime</TableHeaderCell>
-          <TableHeaderCell>FairPlay</TableHeaderCell>
-          <TableHeaderCell>Widevine</TableHeaderCell>
-          <TableHeaderCell>PlayReady</TableHeaderCell>
-          <TableHeaderCell>Total</TableHeaderCell>
+          <TableHeaderCell><div style={{ textAlign: 'right' }}>Primetime</div></TableHeaderCell>
+          <TableHeaderCell><div style={{ textAlign: 'right' }}>FairPlay</div></TableHeaderCell>
+          <TableHeaderCell><div style={{ textAlign: 'right' }}>Widevine</div></TableHeaderCell>
+          <TableHeaderCell><div style={{ textAlign: 'right' }}>PlayReady</div></TableHeaderCell>
+          <TableHeaderCell><div style={{ textAlign: 'right' }}>Total</div></TableHeaderCell>
         </TableHeader>
         <TableBody>
           {getSortedData(workStreams).map((value: any, index: number) => (

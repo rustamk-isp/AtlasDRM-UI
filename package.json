@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-conventional": "^7.5.0",
     "@istreamplanet/pebble": "^0.26.0",
     "@types/jest": "24.0.12",
     "@types/node": "12.0.0",
@@ -28,14 +30,13 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
-    "typescript": "3.4.5",
-    "@commitlint/cli": "^7.5.2",
-    "@commitlint/config-conventional": "^7.5.0"
+    "stylelint": "^10.0.1",
+    "typescript": "3.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint --ext js,jsx,ts,tsx src && stylelint 'src/**/*.css'",
+    "lint": "eslint --ext js,jsx,ts,tsx src",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
