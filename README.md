@@ -53,3 +53,19 @@ $ docker run -p 3000:80 dr,
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 For more information on how to deploy React apps, look at the [deployment documentation](https://facebook.github.io/create-react-app/docs/deployment) from Create React App.
+
+## Production
+
+This project can be used atL
+[DRM UI](http://drm.istreamplanet.net)
+
+To deploy to production do the following (will require AWS CLI access)
+
+```
+docker build -t drm . 
+$(aws ecr get-login --no-include-email --region us-east-1)
+docker tag drm:latest 625885815701.dkr.ecr.us-east-1.amazonaws.com/drm:latest
+docker push 625885815701.dkr.ecr.us-east-1.amazonaws.com/drm:latest
+```
+
+Once pushed to ECR region wait a few minutes for fargate to detect the new package and redeploy.
