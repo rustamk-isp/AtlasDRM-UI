@@ -15,13 +15,13 @@ import {
 
 export default function BillingDetail(): JSX.Element {
   const [customers, setCustomers] = useState<{}[]>([])
+  const [customer, setCustomer] = useState<string>('')
   const [workStreams, setWorkStreams] = useState<string[]>([])
   const [csvData, setCSVData] = useState<string[]>([])
   const [workStreamSortDirection, setWorkStreamSortDirection] = useState<
     string | null
   >('ASC')
   const [showModal, setShowModal] = useState(false)
-
   const keys = [
     'Company',
     'WorkStream',
@@ -72,14 +72,8 @@ export default function BillingDetail(): JSX.Element {
   function handleError (e: any): void {}
 
   function selectedCompany(data: { value: string; label: string }): void {
+    setCustomer(data.value)
     setWorkStreams([
-      ...new Set<string>(
-        filterByCompany(csvData, data.value).map(({ WorkStream }) =>
-          WorkStream !== '' ? WorkStream : 'Uknown'
-        )
-      ),
-    ])
-    console.log([
       ...new Set<string>(
         filterByCompany(csvData, data.value).map(({ WorkStream }) =>
           WorkStream !== '' ? WorkStream : 'Uknown'
@@ -124,23 +118,30 @@ export default function BillingDetail(): JSX.Element {
     }
   }
 
-  function getCountedDataForWorkStream(data: any): {}[] {
+  function getCountedData(data: any, type: string): {}[] {
     let wv = 0
     let pr = 0
     let pt = 0
     let fp = 0
-    let total = 0
+    let ws:any = []
 
-    const ws:any = filterByWorkStream(csvData, data)
-
-    for (var i = 0; i < ws.length; i++) {
-      wv += parseInt(ws[i].WidevineCount)
-      pr += parseInt(ws[i].PlayReadyCount)
-      pt += parseInt(ws[i].PrimetimeCount)
-      fp += parseInt(ws[i].FairPlayCount)
+    if (data !== ``)
+    {
+      if(type === `Company`)
+      {
+        ws = filterByCompany(csvData, data)
+      }
+      else
+      {
+        ws = filterByWorkStream(csvData, data)
+      }
+      for (var i = 0; i < ws.length; i++) {
+        wv += parseInt(ws[i].WidevineCount) || 0
+        pr += parseInt(ws[i].PlayReadyCount) || 0
+        pt += parseInt(ws[i].PrimetimeCount) || 0
+        fp += parseInt(ws[i].FairPlayCount) || 0
+      }
     }
-
-    total += wv + pr + pt + fp
 
     return [
       {
@@ -148,7 +149,7 @@ export default function BillingDetail(): JSX.Element {
         FairPlay: fp,
         Widevine: wv,
         PlayReady: pr,
-        Total: total,
+        Total: wv + pr + pt + fp,
       },
     ]
   }
@@ -235,7 +236,7 @@ export default function BillingDetail(): JSX.Element {
           {getSortedData(workStreams).map((value: any, index: number) => (
             <TableRow key={index}>
               <TableCell>{value}</TableCell>
-              {getCountedDataForWorkStream(value).map((ws: any) => (
+              {getCountedData(value, `WorkStream`).map((ws: any) => (
                 <>
                   <TableCell>
                     <div style={{ textAlign: 'right' }}>{ws.Primetime}</div>
@@ -257,10 +258,29 @@ export default function BillingDetail(): JSX.Element {
             </TableRow>
           ))}
           {
-            <TableRow>
+            <TableRow key={"Totals"}>
               <TableCell>
                 <b>Totals</b>
               </TableCell>
+                  {getCountedData(customer,`Company`).map((ws: any) => (
+                  <>
+                    <TableCell>
+                      <div style={{ textAlign: 'right' }}>{ws.Primetime}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div style={{ textAlign: 'right' }}>{ws.FairPlay}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div style={{ textAlign: 'right' }}>{ws.Widevine}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div style={{ textAlign: 'right' }}>{ws.PlayReady}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div style={{ textAlign: 'right' }}>{ws.Total}</div>
+                    </TableCell>
+                  </>
+              ))}
             </TableRow>
           }
         </TableBody>
