@@ -123,6 +123,7 @@ export default function BillingDetail(): JSX.Element {
     let pr = 0
     let pt = 0
     let fp = 0
+    let ef = 0
     let ws:any = []
 
     if (data !== ``)
@@ -140,6 +141,7 @@ export default function BillingDetail(): JSX.Element {
         pr += parseInt(ws[i].PlayReadyCount) || 0
         pt += parseInt(ws[i].PrimetimeCount) || 0
         fp += parseInt(ws[i].FairPlayCount) || 0
+        ef += parseInt(ws[i].EntitlementEnforcementCount) || 0
       }
     }
 
@@ -149,7 +151,8 @@ export default function BillingDetail(): JSX.Element {
         FairPlay: fp,
         Widevine: wv,
         PlayReady: pr,
-        Total: wv + pr + pt + fp,
+        EntitlementEnforcemet: ef,
+        Total: wv + pr + pt + fp + ef,
       },
     ]
   }
@@ -230,6 +233,7 @@ export default function BillingDetail(): JSX.Element {
           <TableHeaderCell><div style={{ textAlign: 'right' }}>FairPlay</div></TableHeaderCell>
           <TableHeaderCell><div style={{ textAlign: 'right' }}>Widevine</div></TableHeaderCell>
           <TableHeaderCell><div style={{ textAlign: 'right' }}>PlayReady</div></TableHeaderCell>
+          <TableHeaderCell><div style={{ textAlign: 'right' }}>Entitlement Enforcement</div></TableHeaderCell>
           <TableHeaderCell><div style={{ textAlign: 'right' }}>Total</div></TableHeaderCell>
         </TableHeader>
         <TableBody>
@@ -249,6 +253,9 @@ export default function BillingDetail(): JSX.Element {
                   </TableCell>
                   <TableCell>
                     <div style={{ textAlign: 'right' }}>{ws.PlayReady}</div>
+                  </TableCell>
+                  <TableCell>
+                    <div style={{ textAlign: 'right' }}>{ws.EntitlementEnforcemet}</div>
                   </TableCell>
                   <TableCell>
                     <div style={{ textAlign: 'right' }}>{ws.Total}</div>
@@ -275,6 +282,9 @@ export default function BillingDetail(): JSX.Element {
                     </TableCell>
                     <TableCell>
                       <div style={{ textAlign: 'right' }}>{ws.PlayReady}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div style={{ textAlign: 'right' }}>{ws.EntitlementEnforcemet}</div>
                     </TableCell>
                     <TableCell>
                       <div style={{ textAlign: 'right' }}>{ws.Total}</div>
